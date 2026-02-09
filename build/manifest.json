@@ -1,0 +1,36 @@
+{
+  "resources/js/app.ts": {
+    "file": "assets/app-Ct-tZHWY.js",
+    "name": "app",
+    "src": "resources/js/app.ts",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/pages/ValentinesApp.vue",
+      "resources/js/pages/Welcome.vue"
+    ],
+    "css": [
+      "assets/app-DzANfn3n.css"
+    ]
+  },
+  "resources/js/pages/ValentinesApp.vue": {
+    "file": "assets/ValentinesApp-BWiSJeTo.js",
+    "name": "ValentinesApp",
+    "src": "resources/js/pages/ValentinesApp.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.ts"
+    ],
+    "css": [
+      "assets/ValentinesApp-DTDd7ZGU.css"
+    ]
+  },
+  "resources/js/pages/Welcome.vue": {
+    "file": "assets/Welcome-Bosxd6Dh.js",
+    "name": "Welcome",
+    "src": "resources/js/pages/Welcome.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.ts"
+    ]
+  }
+}
