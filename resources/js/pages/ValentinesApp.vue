@@ -1,23 +1,17 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 
-const form = useForm({});
-const sent = ref(false);
-const showConfetti = ref(false);
+// No Inertia usage here for static build
+// import { Head, useForm } from '@inertiajs/vue3'; 
 
-const sendLoveLetter = () => {
-    form.post('/send-love-letter', {
-        preserveScroll: true,
-        onSuccess: () => {
-            sent.value = true;
-            showConfetti.value = true;
-            // Reset confetti after some time
-            setTimeout(() => {
-                showConfetti.value = false;
-            }, 5000);
-        },
-    });
+const showModal = ref(false);
+
+const openLoveLetter = () => {
+    showModal.value = true;
+};
+
+const closeModal = () => {
+    showModal.value = false;
 };
 
 const faqs = [
@@ -44,12 +38,10 @@ const openFaq = ref<number | null>(null);
 const toggleFaq = (index: number) => {
     openFaq.value = openFaq.value === index ? null : index;
 };
-
-// Falling hearts animation logic could go here or just CSS
 </script>
 
 <template>
-    <Head title="Be My Valentine?" />
+    <!-- <Head title="Be My Valentine?" /> Removed for static build -->
 
     <div class="min-h-screen bg-pink-50 text-pink-900 font-sans overflow-hidden relative selection:bg-pink-200">
         <!-- Floating Hearts Background -->
@@ -67,32 +59,19 @@ const toggleFaq = (index: number) => {
                     Happy Valentine's Day Rianna
                 </h1>
                 <p class="text-xl md:text-2xl text-pink-800 max-w-2xl mx-auto opacity-90">
-                    Although i cant touch you, i can send you a message of love.
+                    Although I can't touch you, I can send you a message of love.
                 </p>
 
                 <div class="pt-8">
-                    <transition name="fade" mode="out-in">
-                        <div v-if="!sent" key="button">
-                            <button 
-                                @click="sendLoveLetter"
-                                :disabled="form.processing"
-                                class="group relative px-8 py-4 bg-pink-500 hover:bg-pink-600 text-white text-xl font-bold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden"
-                            >   
-                                <span class="relative z-10 flex items-center gap-2">
-                                    Send Love Letter 💌
-                                    <span v-if="form.processing" class="animate-spin">⏳</span>
-                                </span>
-                                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                            </button>
-                        </div>
-                        <div v-else key="success" class="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl border-2 border-pink-200">
-                            <h2 class="text-3xl font-bold text-pink-600 mb-2">Message Sent! 📮</h2>
-                            <p class="text-lg text-pink-700">Check your inbox for a surprise.</p>
-                            <button @click="sent = false" class="mt-4 text-sm text-pink-500 hover:text-pink-700 underline">
-                                Send another one?
-                            </button>
-                        </div>
-                    </transition>
+                    <button 
+                        @click="openLoveLetter"
+                        class="group relative px-8 py-4 bg-pink-500 hover:bg-pink-600 text-white text-xl font-bold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+                    >   
+                        <span class="relative z-10 flex items-center gap-2">
+                            Open Love Letter 💌
+                        </span>
+                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                    </button>
                 </div>
             </div>
 
@@ -142,6 +121,58 @@ const toggleFaq = (index: number) => {
             </div>
 
         </div>
+
+        <!-- Modal -->
+        <transition name="fade">
+            <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <!-- Backdrop -->
+                <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="closeModal"></div>
+                
+                <!-- Modal Content -->
+                <div class="relative bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-8 text-center border-4 border-pink-200">
+                    <button @click="closeModal" class="absolute top-4 right-4 text-pink-400 hover:text-pink-600 text-2xl font-bold">
+                        &times;
+                    </button>
+                    
+                    <div class="text-5xl mb-6">❤️</div>
+                    <h2 class="text-2xl font-bold text-pink-600 mb-6 font-serif">Happy Valentine's Day Anna!</h2>
+                    
+                    <div class="space-y-4 text-pink-800 leading-relaxed text-lg">
+                        <p>
+                            I know we are not spending it together and we are miles apart, but I want you to know that I am thinking
+                            of you today, yesterday and tomorrow.
+                        </p>
+                        <p>
+                            I think the world of you and you are a priority in my life. I adore you from head to toe, and I can't
+                            wait to be with you again.
+                        </p>
+                        <p>
+                            You make me think on how to be a better man for you bi-weekly so I can see you smile more. Not because
+                            you don't smile enough but I'm just greedy for your happiness.
+                        </p>
+                        <p>
+                            I am greedy for your smile, greedy for your touch, greedy for your love, greedy for your everything. I
+                            am greedy for you.
+                        </p>
+                        <p>
+                            We met in a dessert shop, ironically you are the sweetest thing in my life.
+                        </p>
+                        <p>
+                            I love you differently.
+                        </p>
+                        <p class="font-bold text-pink-600 mt-6 block">
+                            Love from Jorrel 🌹💐🍫
+                        </p>
+                    </div>
+
+                    <!-- Image (Static path for build) -->
+                    <!-- Note: You need to make sure this image is in 'public/images/love.webp' -->
+                     <!-- Since we are building static, standard src works -->
+                    <img src="/images/love.webp" alt="Special Memory" class="w-40 rounded-xl mx-auto mt-6 shadow-md" />
+                </div>
+            </div>
+        </transition>
+
     </div>
 </template>
 
@@ -183,12 +214,11 @@ const toggleFaq = (index: number) => {
 /* Transitions */
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.3s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
-    transform: translateY(20px);
 }
 </style>
