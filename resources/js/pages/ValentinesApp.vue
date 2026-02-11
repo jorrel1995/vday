@@ -34,7 +34,7 @@ const faqs = [
         answer: "You mean everything to me. I would eat a tomato and drink supermalt to keep you happy."
     },
     {
-        question: "Did you read the letter?",
+        question: "Did you read and like the letter?",
         answer: "Yes you did! (Oop)"
     },
     {
