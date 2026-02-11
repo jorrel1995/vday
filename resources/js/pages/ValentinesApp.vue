@@ -193,7 +193,7 @@ onMounted(() => {
                     <div class="text-5xl mb-4 animate-bounce mt-4">❤️</div>
                     <h2 class="text-xl font-bold text-pink-600 mb-4 font-serif">Happy Valentine's Day Anna!</h2>
                     
-                    <div class="space-y-3 text-pink-800 leading-relaxed text-base font-serif text-left">
+                    <div class="space-y-3 text-pink-800 leading-relaxed text-base font-serif text-center">
                         <p>
                             I know we are not spending it together and we are miles apart, but I want you to know that I am thinking
                             of you today, yesterday and tomorrow.
