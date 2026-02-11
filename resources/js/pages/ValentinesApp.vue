@@ -134,7 +134,7 @@ onMounted(() => {
             <!-- FAQ Section -->
             <div class="w-full max-w-lg bg-white/60 backdrop-blur-md rounded-3xl shadow-xl border border-pink-100 p-5 animate-fade-in-up delay-1000 mx-4">
                 <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center flex items-center justify-center gap-2">
-                    <span>Questions of the Heart</span>
+                    <span>FAQs</span>
                     <span class="text-xl">💘</span>
                 </h2>
                 
