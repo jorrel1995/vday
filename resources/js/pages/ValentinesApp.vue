@@ -52,22 +52,33 @@ const toggleFaq = (index: number) => {
 // --- Typewriter Effect ---
 const headingText = "Happy Valentine's Day Rianna";
 const displayedText = ref("");
-const subHeadingText = "Although I can't touch you, I can send you gratitude and love.";
+const subHeadingText = "Although I can't touch you, I can send you gratitude and love, my babygirl x";
 const displayedSubText = ref("");
 const isTyping = ref(true);
 const isSubTyping = ref(true);
 
 const startTypewriter = () => {
     let i = 0;
-    const interval = setInterval(() => {
-        if (i < subHeadingText.length) {
+    // Type Heading First
+    const headingInterval = setInterval(() => {
+        if (i < headingText.length) {
             displayedText.value += headingText.charAt(i);
-            displayedSubText.value += subHeadingText.charAt(i);
             i++;
         } else {
-            clearInterval(interval);
+            clearInterval(headingInterval);
             isTyping.value = false;
-            isSubTyping.value = false;
+            
+            // Then Type Subheading
+            let j = 0;
+            const subInterval = setInterval(() => {
+                if (j < subHeadingText.length) {
+                    displayedSubText.value += subHeadingText.charAt(j);
+                    j++;
+                } else {
+                    clearInterval(subInterval);
+                    isSubTyping.value = false;
+                }
+            }, 50); // Slightly faster for longer text
         }
     }, 100);
 };
@@ -97,7 +108,7 @@ onMounted(() => {
                     {{ displayedText }}<span v-if="isTyping" class="animate-blink">|</span>
                 </h1>
                 <p class="text-lg md:text-2xl text-pink-800 max-w-xl mx-auto opacity-90 px-4 min-h-[3rem]">
-                    {{ displayedSubText }}<span v-if="isSubTyping" class="animate-blink">|</span>
+                    {{ displayedSubText }}<span v-if="!isTyping && isSubTyping" class="animate-blink">|</span>
                 </p>
 
                 <!-- Envelope Button (Tap to Open) -->
