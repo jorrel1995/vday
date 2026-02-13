@@ -52,17 +52,22 @@ const toggleFaq = (index: number) => {
 // --- Typewriter Effect ---
 const headingText = "Happy Valentine's Day Rianna";
 const displayedText = ref("");
+const subHeadingText = "Although I can't touch you, I can send you gratitude and love.";
+const displayedSubText = ref("");
 const isTyping = ref(true);
+const isSubTyping = ref(true);
 
 const startTypewriter = () => {
     let i = 0;
     const interval = setInterval(() => {
-        if (i < headingText.length) {
+        if (i < subHeadingText.length) {
             displayedText.value += headingText.charAt(i);
+            displayedSubText.value += subHeadingText.charAt(i);
             i++;
         } else {
             clearInterval(interval);
             isTyping.value = false;
+            isSubTyping.value = false;
         }
     }, 100);
 };
@@ -91,8 +96,8 @@ onMounted(() => {
                 <h1 class="text-4xl md:text-7xl font-bold text-pink-600 drop-shadow-sm h-20 md:h-32 flex items-center justify-center px-2">
                     {{ displayedText }}<span v-if="isTyping" class="animate-blink">|</span>
                 </h1>
-                <p class="text-lg md:text-2xl text-pink-800 max-w-xl mx-auto opacity-90 animate-fade-in-up delay-500 px-4">
-                    Although I can't touch you, I can send you a message of love.
+                <p class="text-lg md:text-2xl text-pink-800 max-w-xl mx-auto opacity-90 px-4 min-h-[3rem]">
+                    {{ displayedSubText }}<span v-if="isSubTyping" class="animate-blink">|</span>
                 </p>
 
                 <!-- Envelope Button (Tap to Open) -->
@@ -176,6 +181,13 @@ onMounted(() => {
                 </div>
             </div>
 
+            <!-- Footer -->
+            <div class="mt-12 text-center animate-fade-in-up delay-1000">
+                <p class="text-pink-600/70 text-sm">
+                    Made with ❤️ by Jorrel
+                </p>
+            </div>
+
         </div>
 
         <!-- Modal -->
@@ -190,8 +202,8 @@ onMounted(() => {
                         &times;
                     </button>
                     
-                    <div class="text-5xl mb-4 animate-bounce mt-4">❤️</div>
-                    <h2 class="text-xl font-bold text-pink-600 mb-4 font-serif">Happy Valentine's Day Anna!</h2>
+                    <div class="text-5xl mb-4 animate-bounce mt-4 text-center">❤️</div>
+                    <h2 class="text-xl font-bold text-pink-600 mb-4 font-serif text-center">My Love Letter</h2>
                     
                     <div class="space-y-3 text-pink-800 leading-relaxed text-base font-serif text-center">
                         <p>
