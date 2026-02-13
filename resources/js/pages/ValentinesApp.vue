@@ -56,6 +56,7 @@ const subHeadingText = "Although I can't touch you, I can send you gratitude and
 const displayedSubText = ref("");
 const isTyping = ref(true);
 const isSubTyping = ref(true);
+const showMainContent = ref(false);
 
 const startTypewriter = () => {
     let i = 0;
@@ -77,6 +78,10 @@ const startTypewriter = () => {
                 } else {
                     clearInterval(subInterval);
                     isSubTyping.value = false;
+                    // Reveal the rest of the content
+                    setTimeout(() => {
+                        showMainContent.value = true;
+                    }, 500); // Small pause before revealing
                 }
             }, 50); // Slightly faster for longer text
         }
@@ -112,93 +117,98 @@ onMounted(() => {
                 </p>
 
                 <!-- Envelope Button (Tap to Open) -->
-                <div class="pt-8 flex justify-center perspective-1000 animate-fade-in-up delay-700">
-                    <div 
-                        @click="openLoveLetter"
-                        class="envelope-container cursor-pointer transform transition-transform duration-300 active:scale-95"
-                    >
-                        <!-- Mobile sized envelope (slightly smaller on very small screens if needed, but w-64 is safe) -->
-                        <div class="envelope bg-pink-500 w-64 h-40 relative shadow-xl rounded-b-lg flex items-center justify-center overflow-hidden">
-                            <!-- Flap -->
-                            <div 
-                                class="absolute top-0 w-0 h-0 border-l-[128px] border-l-transparent border-r-[128px] border-r-transparent border-t-[80px] border-t-pink-600 origin-top transition-transform duration-700 z-20"
-                                :class="{ '-rotate-x-180': isEnvelopeOpen }"
-                            ></div>
-                            
-                            <!-- Letter peeking out -->
-                            <div 
-                                class="absolute top-2 w-56 h-32 bg-white rounded shadow-sm transform transition-transform duration-700 z-10 flex items-start justify-center pt-2"
-                                :class="{ '-translate-y-12': isEnvelopeOpen }"
-                            >
-                                <span class="text-xs text-pink-400 mt-2">Read me...</span>
+                <transition enter-active-class="transition duration-1000 ease-out" enter-from-class="opacity-0 translate-y-10" enter-to-class="opacity-100 translate-y-0">
+                    <div v-if="showMainContent" class="pt-8 flex justify-center perspective-1000">
+                        <div 
+                            @click="openLoveLetter"
+                            class="envelope-container cursor-pointer transform transition-transform duration-300 active:scale-95"
+                        >
+                            <!-- Mobile sized envelope (slightly smaller on very small screens if needed, but w-64 is safe) -->
+                            <div class="envelope bg-pink-500 w-64 h-40 relative shadow-xl rounded-b-lg flex items-center justify-center overflow-hidden">
+                                <!-- Flap -->
+                                <div 
+                                    class="absolute top-0 w-0 h-0 border-l-[128px] border-l-transparent border-r-[128px] border-r-transparent border-t-[80px] border-t-pink-600 origin-top transition-transform duration-700 z-20"
+                                    :class="{ '-rotate-x-180': isEnvelopeOpen }"
+                                ></div>
+                                
+                                <!-- Letter peeking out -->
+                                <div 
+                                    class="absolute top-2 w-56 h-32 bg-white rounded shadow-sm transform transition-transform duration-700 z-10 flex items-start justify-center pt-2"
+                                    :class="{ '-translate-y-12': isEnvelopeOpen }"
+                                >
+                                    <span class="text-xs text-pink-400 mt-2">Read me...</span>
+                                </div>
+                                
+                                <!-- Front Body -->
+                                <div class="absolute bottom-0 w-0 h-0 border-l-[128px] border-l-pink-400 border-r-[128px] border-r-pink-400 border-t-[80px] border-t-transparent border-b-[80px] border-b-pink-400 rounded-b-lg z-20 pointer-events-none"></div>
+                                
+                                <span 
+                                    class="relative z-30 text-white font-bold text-lg drop-shadow-md transition-opacity duration-300"
+                                    :class="{ 'opacity-0': isEnvelopeOpen }"
+                                >
+                                    Tap to Open 💌
+                                </span>
                             </div>
-                            
-                            <!-- Front Body -->
-                            <div class="absolute bottom-0 w-0 h-0 border-l-[128px] border-l-pink-400 border-r-[128px] border-r-pink-400 border-t-[80px] border-t-transparent border-b-[80px] border-b-pink-400 rounded-b-lg z-20 pointer-events-none"></div>
-                            
-                            <span 
-                                class="relative z-30 text-white font-bold text-lg drop-shadow-md transition-opacity duration-300"
-                                :class="{ 'opacity-0': isEnvelopeOpen }"
-                            >
-                                Tap to Open 💌
-                            </span>
                         </div>
                     </div>
-                </div>
+                </transition>
             </div>
 
             <!-- FAQ Section -->
-            <div class="w-full max-w-lg bg-white/60 backdrop-blur-md rounded-3xl shadow-xl border border-pink-100 p-5 animate-fade-in-up delay-1000 mx-4">
-                <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center flex items-center justify-center gap-2">
-                    <span>FAQs</span>
-                    <span class="text-xl">💘</span>
-                </h2>
-                
-                <div class="space-y-3">
-                    <div 
-                        v-for="(faq, index) in faqs" 
-                        :key="index"
-                        class="border-b border-pink-100 last:border-0"
-                    >
-                        <button 
-                            @click="toggleFaq(index)"
-                            class="w-full flex items-center justify-between py-3 text-left focus:outline-none focus:bg-pink-50/50 rounded-lg px-2 transition-colors"
+            <transition enter-active-class="transition duration-1000 ease-out delay-500" enter-from-class="opacity-0 translate-y-10" enter-to-class="opacity-100 translate-y-0">
+                <div v-if="showMainContent" class="w-full max-w-lg bg-white/60 backdrop-blur-md rounded-3xl shadow-xl border border-pink-100 p-5 mx-4">
+                    <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center flex items-center justify-center gap-2">
+                        <span>FAQs</span>
+                        <span class="text-xl">💘</span>
+                    </h2>
+                    
+                    <div class="space-y-3">
+                        <div 
+                            v-for="(faq, index) in faqs" 
+                            :key="index"
+                            class="border-b border-pink-100 last:border-0"
                         >
-                            <span class="text-base font-medium text-pink-800">
-                                {{ faq.question }}
-                            </span>
-                            <span 
-                                class="text-pink-400 transform transition-transform duration-300 ml-2"
-                                :class="{ 'rotate-180': openFaq === index }"
+                            <button 
+                                @click="toggleFaq(index)"
+                                class="w-full flex items-center justify-between py-3 text-left focus:outline-none focus:bg-pink-50/50 rounded-lg px-2 transition-colors"
                             >
-                                ▼
-                            </span>
-                        </button>
-                        <transition
-                            enter-active-class="transition-all duration-300 ease-out"
-                            enter-from-class="opacity-0 max-h-0"
-                            enter-to-class="opacity-100 max-h-40"
-                            leave-active-class="transition-all duration-200 ease-in"
-                            leave-from-class="opacity-100 max-h-40"
-                            leave-to-class="opacity-0 max-h-0"
-                        >
-                            <div v-show="openFaq === index" class="overflow-hidden px-2">
-                                <p class="pb-3 text-pink-700/80 leading-relaxed text-sm">
-                                    {{ faq.answer }}
-                                </p>
-                            </div>
-                        </transition>
+                                <span class="text-base font-medium text-pink-800">
+                                    {{ faq.question }}
+                                </span>
+                                <span 
+                                    class="text-pink-400 transform transition-transform duration-300 ml-2"
+                                    :class="{ 'rotate-180': openFaq === index }"
+                                >
+                                    ▼
+                                </span>
+                            </button>
+                            <transition
+                                enter-active-class="transition-all duration-300 ease-out"
+                                enter-from-class="opacity-0 max-h-0"
+                                enter-to-class="opacity-100 max-h-40"
+                                leave-active-class="transition-all duration-200 ease-in"
+                                leave-from-class="opacity-100 max-h-40"
+                                leave-to-class="opacity-0 max-h-0"
+                            >
+                                <div v-show="openFaq === index" class="overflow-hidden px-2">
+                                    <p class="pb-3 text-pink-700/80 leading-relaxed text-sm">
+                                        {{ faq.answer }}
+                                    </p>
+                                </div>
+                            </transition>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </transition>
 
             <!-- Footer -->
-            <div class="mt-12 text-center animate-fade-in-up delay-1000">
-                <p class="text-pink-600/70 text-sm">
-                    Made with ❤️ by Jorrel
-                </p>
-            </div>
-
+            <transition enter-active-class="transition duration-1000 ease-out delay-700" enter-from-class="opacity-0" enter-to-class="opacity-100">
+                <div v-if="showMainContent" class="mt-12 text-center">
+                    <p class="text-pink-600/70 text-sm">
+                        Made with ❤️ by Jorrel
+                    </p>
+                </div>
+            </transition>
         </div>
 
         <!-- Modal -->
